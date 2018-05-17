@@ -1,18 +1,18 @@
 package org.aist.aide.apiservice.domain.strategies.creditcard;
 
-import org.aist.aide.apiservice.domain.models.creditcard.CardValidationResult;
-import org.aist.aide.apiservice.domain.models.creditcard.CreditCard;
-import org.aist.aide.apiservice.domain.models.gis.Address;
-import org.aist.aide.apiservice.domain.strategies.ApiStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-@Service
+import org.aist.aide.apiservice.domain.models.creditcard.CardValidationResult;
+import org.aist.aide.apiservice.domain.models.creditcard.CreditCard;
+import org.aist.aide.apiservice.domain.models.gis.Address;
+import org.aist.aide.apiservice.domain.strategies.ApiStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component("creditCardStrategy")
 public class CreditCardStrategy implements ApiStrategy<CreditCard, CardValidationResult> {
 
     private CardCompanyValidator cardCompanyValidator;
@@ -112,10 +112,18 @@ public class CreditCardStrategy implements ApiStrategy<CreditCard, CardValidatio
     @Override
     public CardValidationResult run(CreditCard card) {
          try {
-             validateExpiration(card.getExpiration());
-             validateCvv(card.getCvv());
-             validateIssuerName(card.getIssuerName());
-             validateAddress(card.getAddress());
+             if(card.getExpiration() != null && !card.getExpiration().isEmpty()) {
+                 validateExpiration(card.getExpiration());
+             }
+             if(card.getCvv() != null && !card.getCvv().isEmpty()) {
+                 validateCvv(card.getCvv());
+             }
+             if(card.getIssuerName() != null && !card.getIssuerName().isEmpty()) {
+                 validateIssuerName(card.getIssuerName());
+             }
+             if(card.getAddress() != null) {
+                 validateAddress(card.getAddress());
+             }
              return validateNumber(card.getNumber());
          } catch(Exception e) {
             return new CardValidationResult(card.getNumber(), e.getMessage());

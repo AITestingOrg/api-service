@@ -46,4 +46,37 @@ public class CardCompanyValidatorTest {
         Assert.assertEquals("Visa", result.getCompany());
         Assert.assertEquals(true, result.isValid());
     }
+
+    @Test
+    public void givenAInvalidCardNumber_whenGleaningIssuer_InvalidIsReturned() {
+        // Arrange
+        when(cardPatternRepo.findAll()).thenReturn(setupVisaAndMaster());
+
+        // Act
+        var result = cardCompanyValidator.gleanCompany("4244242");
+
+        // Assert
+        Assert.assertEquals(false, result.isValid());
+    }
+
+    @Test
+    public void givenIssuerExists_whenValidatingIssuer_TrueReturned() throws Exception {
+        // Arrange
+        when(cardPatternRepo.findAll()).thenReturn(setupVisaAndMaster());
+
+        // Act
+        var result = cardCompanyValidator.validateIssuer("Visa");
+
+        // Assert
+        Assert.assertEquals(true, result);
+    }
+
+    @Test(expected = Exception.class)
+    public void givenIssuerDoesNotExist_whenValidatingIssuer_ExceptionThrown() throws Exception {
+        // Arrange
+        when(cardPatternRepo.findAll()).thenReturn(setupVisaAndMaster());
+
+        // Act
+        cardCompanyValidator.validateIssuer("Lol");
+    }
 }
