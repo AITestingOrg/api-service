@@ -13,17 +13,18 @@ public class CreditCard {
     private String expiration;
     private String cvv;
     private Address address;
+    private String issuerName;
 
-    public CreditCard(@NotEmpty String number, String name, String expiration, String cvv, Address address) {
+    public CreditCard(@NotEmpty String number, String name, String expiration, String cvv, Address address, String issuerName) {
         this.number = number;
         this.name = name;
         this.expiration = expiration;
         this.cvv = cvv;
         this.address = address;
+        this.issuerName = issuerName;
     }
 
-    public CreditCard() {
-    }
+    public CreditCard() {}
 
     public String getNumber() {
         return number;
@@ -43,5 +44,9 @@ public class CreditCard {
 
     public Address getAddress() {
         return address;
+    }
+
+    public String getIssuerName() {
+        return issuerName;
     }
 }

@@ -27,4 +27,13 @@ public class CardCompanyValidator {
         }
         return new CardType();
     }
+
+    public boolean validateIssuer(String issuerName) throws Exception {
+        for (CardPattern cardPattern : cardPatternRepo.findAll()){
+            if (issuerName.toLowerCase().equals(cardPattern.getIssuerName().toLowerCase())) {
+                return true;
+            }
+        }
+        throw new Exception("Unknown card issuer name.");
+    }
 }
