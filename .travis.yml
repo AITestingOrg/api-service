@@ -1,0 +1,19 @@
+language: java
+
+sudo: false
+dist: trusty
+
+services: mongodb
+
+# Get latest install-jdk.sh script
+before_install:
+  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
+
+matrix:
+  include:
+# Java 10 "Oracle JDK" (not yet provided by Travis CI)
+    - env: JDK='Oracle JDK 10'
+      install: . ./install-jdk.sh -F 10 -L BCL
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  apiservice:
+    build: ./
+    volumes:
+      - ./src:/usr/src/app
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mongo
+      - discoveryservice
+  mongo:
+    image: mongo:latest
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+      - MONGODB_USER=user
+      - MONGODB_PASS=pass
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - 27017:27017
+  discoveryservice:
+    image: springcloud/eureka
+    ports:
+      - "8761:8761"
