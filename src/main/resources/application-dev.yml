@@ -11,3 +11,8 @@ eureka:
     serviceUrl:
       defaultZone: http://discoveryservice:8082/eureka/
     register-with-eureka: true
+
+aide:
+  gis:
+    usps:
+      user: test
