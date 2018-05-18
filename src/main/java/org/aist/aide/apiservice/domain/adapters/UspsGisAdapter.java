@@ -1,6 +1,5 @@
 package org.aist.aide.apiservice.domain.adapters;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.aist.aide.apiservice.domain.models.gis.Address;
@@ -37,7 +36,7 @@ public class UspsGisAdapter implements GisAdapter {
 
     @Override
     public boolean validateFullAddress(Address address) throws Exception {
-        String addressValidationXml = String.format(
+        var addressValidationXml = String.format(
                 "<AddressValidateRequest USERID=\"%s\">"
                         + "<Revision>1</Revision>"
                         + "  <Address ID=\"0\">"
@@ -55,16 +54,16 @@ public class UspsGisAdapter implements GisAdapter {
                 address.getRegion(),
                 address.getPostalCode());
 
-        String requestUrl = "http://production.shippingapis.com/ShippingAPI.dll?API=Verify&XML=" + addressValidationXml;
+        var requestUrl = "http://production.shippingapis.com/ShippingAPI.dll?API=Verify&XML=" + addressValidationXml;
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
         var request = new HttpEntity<>("", headers);
         var response = restTemplate.exchange(requestUrl, HttpMethod.GET, request, String.class);
         // todo: refactor this with XML deserialization
         if (response.getBody().contains("<Error>")) {
-            String regexString = Pattern.quote("<Description>") + "(.*?)" + Pattern.quote("</Description>");
-            Pattern pattern = Pattern.compile(regexString);
-            Matcher matcher = pattern.matcher(response.getBody());
+            var regexString = Pattern.quote("<Description>") + "(.*?)" + Pattern.quote("</Description>");
+            var pattern = Pattern.compile(regexString);
+            var matcher = pattern.matcher(response.getBody());
             if (matcher.find()) {
                 throw new Exception(matcher.group(1));
             }
