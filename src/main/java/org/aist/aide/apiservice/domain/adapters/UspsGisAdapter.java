@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.aist.aide.apiservice.domain.models.gis.Address;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,12 @@ public class UspsGisAdapter implements GisAdapter {
 
     @Value("${aide.gis.usps.user}")
     private String userId;
+
+    private final RestTemplate restTemplate;
+
+    public UspsGisAdapter(@Autowired RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     public boolean validatePostalCode(String postalCode) {
@@ -49,7 +56,6 @@ public class UspsGisAdapter implements GisAdapter {
                 address.getPostalCode());
 
         String requestUrl = "http://production.shippingapis.com/ShippingAPI.dll?API=Verify&XML=" + addressValidationXml;
-        var restTemplate = new RestTemplate();
         var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
         var request = new HttpEntity<>("", headers);
