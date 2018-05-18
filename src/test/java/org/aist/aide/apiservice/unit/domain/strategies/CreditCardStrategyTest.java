@@ -1,5 +1,7 @@
 package org.aist.aide.apiservice.unit.domain.strategies;
 
+import static org.mockito.Mockito.when;
+
 import org.aist.aide.apiservice.domain.models.creditcard.CardType;
 import org.aist.aide.apiservice.domain.models.creditcard.CreditCard;
 import org.aist.aide.apiservice.domain.strategies.creditcard.CardCompanyValidator;
@@ -10,8 +12,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import static org.mockito.Mockito.when;
 
 public class CreditCardStrategyTest {
     @Mock
@@ -60,7 +60,7 @@ public class CreditCardStrategyTest {
                 "123",
                 null,
                 "Visa"
-        );;
+        );
         when(cardCompanyValidator.gleanCompany(validCard.getNumber())).thenReturn(new CardType("Visa"));
         when(cardCompanyValidator.validateIssuer(validCard.getIssuerName())).thenReturn(true);
 
@@ -81,7 +81,7 @@ public class CreditCardStrategyTest {
                 "123",
                 null,
                 "Viva"
-        );;
+        );
         when(cardCompanyValidator.gleanCompany(validCard.getNumber())).thenReturn(new CardType("Visa"));
         when(cardCompanyValidator.validateIssuer(validCard.getIssuerName())).thenReturn(true);
 

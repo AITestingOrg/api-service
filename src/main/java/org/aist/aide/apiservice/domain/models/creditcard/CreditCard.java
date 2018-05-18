@@ -1,9 +1,9 @@
 package org.aist.aide.apiservice.domain.models.creditcard;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.aist.aide.apiservice.domain.models.gis.Address;
 
 import javax.validation.constraints.NotEmpty;
+import org.aist.aide.apiservice.domain.models.gis.Address;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CreditCard {
@@ -15,7 +15,13 @@ public class CreditCard {
     private Address address;
     private String issuerName;
 
-    public CreditCard(@NotEmpty String number, String name, String expiration, String cvv, Address address, String issuerName) {
+    public CreditCard(
+            @NotEmpty String number,
+            String name,
+            String expiration,
+            String cvv,
+            Address address,
+            String issuerName) {
         this.number = number;
         this.name = name;
         this.expiration = expiration;
@@ -24,7 +30,8 @@ public class CreditCard {
         this.issuerName = issuerName;
     }
 
-    public CreditCard() {}
+    public CreditCard() {
+    }
 
     public String getNumber() {
         return number;

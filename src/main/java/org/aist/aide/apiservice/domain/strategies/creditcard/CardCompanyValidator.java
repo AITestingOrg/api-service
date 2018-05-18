@@ -1,6 +1,5 @@
 package org.aist.aide.apiservice.domain.strategies.creditcard;
 
-import org.aist.aide.apiservice.domain.models.creditcard.CardPattern;
 import org.aist.aide.apiservice.domain.models.creditcard.CardType;
 import org.aist.aide.apiservice.service.repos.CardPatternRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +13,8 @@ public class CardCompanyValidator {
         this.cardPatternRepo = cardPatternRepo;
     }
 
-    /**
-     * get an enum from a card number
-     * @param card
-     * @return
-     */
     public CardType gleanCompany(String card) {
-        for (var cardPattern : cardPatternRepo.findAll()){
+        for (var cardPattern : cardPatternRepo.findAll()) {
             if (card.matches(cardPattern.getRegex())) {
                 return new CardType(cardPattern.getIssuerName());
             }
@@ -29,7 +23,7 @@ public class CardCompanyValidator {
     }
 
     public boolean validateIssuer(String issuerName) throws Exception {
-        for (var cardPattern : cardPatternRepo.findAll()){
+        for (var cardPattern : cardPatternRepo.findAll()) {
             if (issuerName.toLowerCase().equals(cardPattern.getIssuerName().toLowerCase())) {
                 return true;
             }

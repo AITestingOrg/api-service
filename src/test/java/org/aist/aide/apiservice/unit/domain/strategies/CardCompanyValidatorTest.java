@@ -1,5 +1,10 @@
 package org.aist.aide.apiservice.unit.domain.strategies;
 
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.aist.aide.apiservice.domain.models.creditcard.CardPattern;
 import org.aist.aide.apiservice.domain.strategies.creditcard.CardCompanyValidator;
 import org.aist.aide.apiservice.service.repos.CardPatternRepo;
@@ -9,11 +14,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.Mockito.when;
 
 public class CardCompanyValidatorTest {
     @Mock

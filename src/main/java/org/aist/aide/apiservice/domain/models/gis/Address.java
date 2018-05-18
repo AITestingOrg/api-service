@@ -11,7 +11,13 @@ public class Address {
     private String postalCode;
     private String apartmentNumber;
 
-    public Address(String street, String city, String region, String country, String postalCode, String apartmentNumber) {
+    public Address(
+            String street,
+            String city,
+            String region,
+            String country,
+            String postalCode,
+            String apartmentNumber) {
         this.street = street;
         this.city = city;
         this.region = region;
