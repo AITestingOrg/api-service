@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: apiservice
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost/api_service # Mongo database URI. When set, host and port are ignored.
+      port: 27017 # Mongo server port.
+      enabled: true # Enable Mongo repositories.
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8082/eureka/
+    register-with-eureka: false
+    fetch-registry: false
+
+aide:
+  gis:
+    usps:
+      user: test
