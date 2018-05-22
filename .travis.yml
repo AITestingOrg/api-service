@@ -1,19 +1,22 @@
 language: java
-
 sudo: false
 dist: trusty
-
 services: mongodb
-
-# Get latest install-jdk.sh script
 before_install:
-  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
-
+- docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+- wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
 matrix:
   include:
-# Java 10 "Oracle JDK" (not yet provided by Travis CI)
-    - env: JDK='Oracle JDK 10'
-      install: . ./install-jdk.sh -F 10 -L BCL
-
+  - env: JDK='Oracle JDK 10'
+    install: ". ./install-jdk.sh -F 10 -L BCL"
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
+- docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+- set +e
+- export REPO=aista/api-service
+- docker build -f Dockerfile -t $REPO:$TRAVIS_TAG .
+- docker push $REPO
+env:
+  global:
+  - secure: QM4vQv5Lpj2etvY5/v4yM5cZgz9X4c8xk26AdA4wKpDMuMoU83/OGjE7drxn1YQV0/pUXky/UO4HjoaY821BW71hGhOmgG0geB2evC130hFf9/28LVHEnNJX88LcH+HAZ/C2uaJebC6Sp1/btzdgBWYP9ihIdVUBofnDd7vDU56/z7JTxMWmflb3woreWigE1EjzgpQgmqc7ipsKus/RToZ0nr3nQrx2LdXCHgS07n7sLZj5j3CEZ5oaYSRtqSCBngrr90xd2vt0X5Um2hh/RZYutKnmHxnLbwvAhk1FfY7/FN5Y/S7lyMTv9LuX3syhRtAgdC1KWso/J6I//Iu33LFNhDYUNJFyKYyJ9oWs9y+tB4mVYW+dwX+wjxZF/X5/k22D6B286P1LDggQctjg/urXQ3kwzIOeW5VckaL/gtFG1S3rzGEqOlxvbN601WhBYgL2NcKPPk0xEjcB4cwRy4gWJpsjcwaUTfZ64f9gGODtZC1R2rHfcpQ+mnOEIGQgyOws9hsuIAfV35qKIrwxOZtcGYGdauUHrvSgSnq/OyMGbm+vwi94bqB5r4Z0tyYq8zevnB3C3fqT/SZ8LB780F9F4/gHdLOsD+vaPvq9yxzdcj98mMm1vauEMxcZEnDO5UBWsycxfB7UgKAg8wMacM8tClV08kWdYVhMUk1mxkk=
+  - secure: hKQV+KYlNKqJHxkdNZk1SKiCFfVKGRizvYwXF1Ma1M/vFfpvV8AX9ZTYMGbg9SzdZEuefCKgBEeX5MMBPOQpcrSbB3uAa6UL04D+5F3yrT0IQ8ZxSAEADm1vyG/1and+c+O2b4L3z8ubnpPbKYehB2SosuvR+jvcQWziNwnQ6C6K/QDUESIibxNf/5Gy4xqSLdw78n5p7vhV/8tRpP/gIC2Ql/ADiipVMup71tOQO5JShBO2/h0XcYHnll9vbHzDWA0umYNhvFdyroDCEbXs6zqWUp7A/L685FqPSLaHGlXBqXPAeS7HtVCiSQuzG9ZowAgN5skm+puZPLQkeLaQoJeboi1aWIC3nPAS6ARsv+oJZTKDzmFx5yeiUtJUMrKB8srGtIEtEGT86vPragJ0X0P85+rGWzNGj2PpgD8VFSjAAmUpEg+JoNd6+Iikytu/JTNpnT8nKJM6f0rlrqo4g0860OU2KK4w8VYrf+XEmPVy539hDFj0Agl1Sz0dsInEEBIHFoCt0GrcBvOKsLlQx98+9911WB4/u72gw76JXYMAu3HKA8B5HMY8IKP3hK8STGhDA/3B8pxa7KZJtCqopKH7rW9C2Lw/JDzMsSemTyy/vEtIEHRIFBSNMKYh334MJ0DzoquZrq4n8R0RTGa2WhDB03xKSWEmdifKieTDl08=
